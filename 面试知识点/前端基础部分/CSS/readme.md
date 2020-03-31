@@ -1,3 +1,28 @@
+## css中的盒模型  
+    文章：https://www.cnblogs.com/chengzp/p/cssbox.html
+  CSS包括两种和模型
+  1.IE 盒模型
+      border + padding + Contentwidth +margin
+  2.W3C标准盒模型
+    contnetWidth
+
+  box-sizing默认属性就是content-box，即标准盒子模式，
+  IE盒子模型呢，是属性border-box。
+## CSS优先级
+  ！important  > 行内样式 > ID选择器 > 类选择器 = 属性选择器 = 伪类选择器： > 标签选择器=伪元素选择器::
+
+
+## 样式引用
+link 属于html标签 @import是css提供得
+  页面加载时会同时加载link，@import是引用得css等页面加载完成后加载
+
+## animation与transition区别
+
+
+
+
+
+## Flex 浮动布局
 传统网页布局基于盒模型，依赖display + position +float  在特殊布局不易实现，出现Flex布局响应页面布局
 
 ## Flex布局
@@ -64,3 +89,85 @@
       3. flex布局      父元素：display:flex,align-item:center
 
    `垂直水平居中`
+      已知高度得水平居中
+        1. 绝对定位+负边距
+        利用绝对定位，将元素的top和left属性都设为50%，再利用margin边距，将元素回拉它本身高宽的一半，实现垂直居中
+             width:100px;
+            height:100px;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin:-50px 0 0 -50px;
+
+      不定宽高水平居中
+        1.利用table-cell父级元素
+          display:table-cell;
+          text-align:center;
+          vertical-align:middle;
+          
+        2.  display:flex;
+            justify-content:center;
+            align-items: center;
+
+
+## 🏆隐藏或者透明元素的方法：
+1. opacity: 0;   透明度为 0，整体都看不见了，还是占据位置；
+2. visibility: hidden; 这个和上边类似但是不会触发当前元素绑定得事件；
+3. display: none; 消失，不占用位置；相当于删除该元素
+4. background-color: rgba(0, 0, 0, 0.2); 只是背景色透明。
+
+
+
+
+## 三栏布局 左右固定中间自适应
+  1. 用flex布局
+    .container{
+    display: flex;
+}
+.left，.right{
+    flex-basis:200px;
+    background: green;
+}
+.main{
+    flex: 1;
+    background: red;
+}
+
+## 左边定宽 右边自适应
+  1. left:{
+      float:left
+  }
+  right{
+    width: 100%
+  }
+  2. 父级容器设置 display:flex   右边盒子.right{
+                                              flex:1
+                                                      }
+  3. 父级容器
+      .parent{
+        float:left
+        width:100%
+      }
+      .left{
+        float:left
+        margin-left:100%
+      }
+      .right{
+        margin-left:200px
+      }
+
+  ## css画一个三角形
+  width:0
+  height:0
+  border-width: 100px;
+  border-style: solid;
+  border-color: transparent #0099CC transparent transparent;
+
+
+
+
+  ## CSS性能优化
+
+
+
+  ## BFC块级上下文
