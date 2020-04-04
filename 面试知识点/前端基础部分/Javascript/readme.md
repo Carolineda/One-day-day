@@ -17,9 +17,12 @@
           parseFloat() 将字符串转为浮点数
   5. String类型：字符串是不可变得
       `转义符`： 
-      `对象属性的读取`：
-          对象所有属性的查看： Object.keys(obj )
+    
   6. Object类型：对象是Javascript得基础
+        `对象属性的读取`：
+          对象所有属性的查看： Object.keys(obj )
+          判断属性是否存在： in运算符 例如："key" in obj
+          属性的遍历： for ..  in循环，用来遍历对象的全部属性
 
 
 
