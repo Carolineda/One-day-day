@@ -23,7 +23,7 @@
           对象所有属性的查看： Object.keys(obj )
           判断属性是否存在： in运算符 例如："key" in obj
           属性的遍历： for ..  in循环，用来遍历对象的全部属性
-  7. Function
+  7. Symbol·
 
 
 
@@ -76,6 +76,25 @@
     例如：
     var arr = [1,2,4]
     arr._proto_ = Array.prototype。
+    
+## __proto__ 和 prototype
+  1.只有function才有原型链 prototype
+  2.万物皆有__proto__
+
+(方法)function.__proto__.__.proto__ =(对象) object.__proto__ :
+ let a = {}  let b = function(){}
+ a.__proto__   =  b.__proto__.__.proto__
+
+  a: a.protype
+    undefined
+    a.__proto__
+    {constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+
+  b: b.__proto__
+    ƒ () { [native code] }
+    b.__proto__.__proto__
+    {constructor: ƒ, __defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, …}
+
 
 
 
@@ -99,8 +118,96 @@
 waitSomeTime('hello', 1000);
 
 
+  闭包就是将函数内部和函数外部连接，闭包可以缓存上级作用域，打破函数作用域的舒服，可以访问函数内部的变量。闭包的作用：
+      可以读取函数内部的变量
+      让变量的值始终保存在内存中
+
+`应用场景`
+  1.Ajax请求成功的回调，一个setTimeout的延时回调
 
 
+## 垃圾回收机制
+  在Javascript中，不再使用变量，意味着变量生命周期的结束，如果一个对象不再引用，此对象就会被垃圾回收机制回收。
+    垃圾回收的实现方式：
+    1.` 标记清楚`
+        在函数中声明的变量，当变量进入执行环境时标记为“进入环境”，变量离开执行环境是标记为"离开环境"，在进入环境阶段不能被回收，在离开环境变量是可以回收的。
+          例如： function fun(){
+            const a = 1
+            const b = 2   //此时a,b被标记"进入环境"
+          }
+          fun()  //函数执行结束，a,b标记为离开环境，变量回收
+
+            垃圾回收机制在运行的时候会给存储在内存中的变量都加上标记方式，在标记'离开环境'的变量标记时，无法访问到变量，垃圾回收机制周期运行时，将释放此变量的内存，回收他们所占用的空间
+
+  2. `引用计数`
+    是指统计引用类型变量声明后被引用的次数，当引用值为0时，此变量回收
+
+      `内存泄漏`
+        不再需要的内存，由于某种原因，无法被释放所占的内存
+          1.全局变量，不会被回收
+          2.闭包的使用，不会被回收
+          3.没有销毁的定时器和回调函数  手动删除定时器
+          4.Dom
 
 
 ## This的使用
+
+  This永远指向最后调用它的对象
+  `This的作用域`
+    1.指向全局时：window  在使用严格模式时为undefined
+    2.指向对象：指的是调用的对象，当前上下文的对象
+    3.在构造函数中，指向的是实例对象
+
+改变This指向问题
+  1. 使用箭头函数
+    箭头函数中的this始终指向函数内的this,如果箭头函数被非箭头函数包围，this绑定的是最近一层非箭头函数的this 
+                 
+            var name = "dahuang"
+            var o = {
+              name: "cherr",
+              func1: function () {
+                console.log(this.name)
+              },
+              func2: function () {
+                setTimeout(() => {
+                  this.func1()
+                }, 1000)
+              }
+            }
+            o.func2()   //输出cheer
+
+  2. 在函数内部给this赋值在另外一个变量上  let _this = this
+
+  3. 使用call apply bind方法改变this
+    `Call`
+      接受多个参数：func.call(thisValue, arg1, arg2, ...) 第一个参数是this要指向的那个对象，后面的参数是函数调用时所需要的参数。如果传入的参数为空、null、undefined，则默认传入全局对象
+        例如：  function add(a, b) {
+          return a + b;
+        }
+        add.call(this, 1, 2) // 3
+
+    `Apply`
+      改变作用域与call相似，不同之处，apply接受的参数是数组作为函数执行时的参数。
+        func.apply(thisValue,[arg1,arg2....])
+        例如：
+          function f (x,y){
+            console.log(x+y)
+          }
+          f.call(null,1,1)
+          f.apply(null,[1,1]) 输出2
+        `apply应用场景`
+        1. 用apply求出数组最大元素
+          var a = [1,2,3,4,67]
+          Math.max.call(null,a)
+        2. 将数组为空的元素返回undefined
+          通过apply方法，利用Array构造函数将数组空的元素变成undefined
+            例如：  
+              Array.apply(null,['a','','b'])   //输出['a','undefined','b']
+            在数组遍历中forEach()会跳过空元素，但是不会跳过undefined
+
+    `Bind`
+  bind()方法用于将函数体内的this绑定到某个对象，然后返回一个新函数。
+
+
+## 类的继承
+  
