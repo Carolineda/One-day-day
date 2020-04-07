@@ -210,4 +210,41 @@ waitSomeTime('hello', 1000);
 
 
 ## 类的继承
+
+## Js中的执行机制
+  Javascript是单线程的，它的主要用途是与用户互动以及操作DOM。
+  `任务队列`
+    任务执行栈，判断同步、异步
+    1. 同步任务进入主线程，异步任务进入Event Table(事件表)，当事件表中的异步完成后在Event Queue(事件队列中注册回调函数)
+    2. 主线程任务完成后，才会完成事件队列中的任务
+    3. Js解析器不断重复检查主线程的执行栈再重复，此过程是事件循环(Event Loop)
+  "任务队列"中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入"任务队列"，等待主线程读取。
+  
+  所谓"回调函数"（callback），就是那些会被主线程挂起来的代码。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。
+  `在任务中又分为微任务和宏任务`
+      宏任务（macrotask ）
+     setTimeout
+     setInterval
+     requestAnimationFrame
+     Html解析
+     Js的主线程
+     页面加载
+     用户交互
+
+
+
+  微任务（microtask
+    promise
+    process.nextTick
+    setImmediate
+    mutation.oberver  (node的异步)
+  - Script(主程序代码) ---> process.nextTick ----> promise ---->setTimeout ----> setInterval --->setImmediate --->I/O ---->UI reading
+
+  在执行微任务和宏任务时，会先完成微任务的执行再去执行宏任务。
+
+## 异步回调
+  在传统的ajax请求中，当异步请求之间的数据存在依赖关系的时候，就可能产生很难看的多层回调，俗称'回调地狱'（callback hell）
+
+  解决回调地狱问题：
+    1. Promise Promise对象表示将来要发生的事情，但在new Promise时，作为Promise参数传入的函数会立即执行，执行的这部分代码可以是异步。
   
