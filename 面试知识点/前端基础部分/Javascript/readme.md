@@ -25,6 +25,46 @@
           属性的遍历： for ..  in循环，用来遍历对象的全部属性
   7. Symbol·
 
+## 基础类型和引用类型
+  `内存空间`：分为栈内存和堆内存
+      栈内存：  
+        存储的值大小固定
+        空间较小
+        可以直接操作保存的变量
+    Javascript中的原始类型的值被直接存储在栈中，在定义变量时，栈就为其分配好空间
+
+      堆内存
+        存储的值大小不一定，可动态调整
+        无法直接操作内部存储，使用引用地址读取
+  1. 基础类型是保存在栈内存中的数据，保存在栈空间。因为栈空间中的大小是固定的，所以存储在栈中的变量是不可变的
+
+  2. 引用类型是通过使用引用地址读取，通过保存在栈内存中的引用地址，去堆内存找对应的值。引用类型有：Array\Object\Date\Function.
+  当使用引用类型查询时，我们需要从栈中读取内存地址，找到保存在在堆内存中的值
+
+  例如：  
+    let a1 = 0; // 栈内存
+    let a2 = "this is string" // 栈内存
+    let a3 = null; // 栈内存
+    let b = { x: 10 }; // 变量b存在于栈中，{ x: 10 }作为对象存在于堆中
+    let c = [1, 2, 3]; // 变量c存在于栈中，[1, 2, 3]作为对象存在于堆中
+        栈内存                                堆内存
+    变量名    具体值
+    b         此对象的访问地址   ---->(引用)  {x:10}    
+
+  `值传递和引用传递`
+    值传递是指没有改变
+    引用传递是通过函数等改变函数内的变量
+    例如：  
+        let name = 'ConardLi';
+          function changeValue(name){
+            name = 'code秘密花园';
+          }
+          changeValue(name);
+          console.log(name);  // 'ConardLi' 值传递
+
+  ECMAScript中所有的函数的参数都是按值传递的。
+
+
 
 
 ## typeOf instanceOf  Object.prototype.toString() 数据类型的判别
@@ -111,11 +151,11 @@
 - 使用修改作用域可以实现闭包的方法
 
     function waitSomeTime(msg, time) {
-	setTimeout(function () {
-		console.log(msg)
-	}, time);
-}
-waitSomeTime('hello', 1000);
+      setTimeout(function () {
+        console.log(msg)
+      }, time);
+    }
+  waitSomeTime('hello', 1000);
 
 
   闭包就是将函数内部和函数外部连接，闭包可以缓存上级作用域，打破函数作用域的舒服，可以访问函数内部的变量。闭包的作用：
@@ -243,8 +283,15 @@ waitSomeTime('hello', 1000);
   在执行微任务和宏任务时，会先完成微任务的执行再去执行宏任务。
 
 ## 异步回调
+  `Javascript中异步和同步`
+    Javascript是单线程语言，一个时间里处理一件事情，多个事件处理时会导致主线程阻塞，使得页面处于长时间无响应状态，因此引入异步解决线程阻塞问题。
   在传统的ajax请求中，当异步请求之间的数据存在依赖关系的时候，就可能产生很难看的多层回调，俗称'回调地狱'（callback hell）
 
   解决回调地狱问题：
     1. Promise Promise对象表示将来要发生的事情，但在new Promise时，作为Promise参数传入的函数会立即执行，执行的这部分代码可以是异步。
   
+
+
+
+
+  ## 阻止事件冒泡
