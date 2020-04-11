@@ -250,6 +250,10 @@
 
 
 ## 类的继承
+  
+
+
+
 
 ## Js中的执行机制
   Javascript是单线程的，它的主要用途是与用户互动以及操作DOM。
@@ -295,3 +299,30 @@
 
 
   ## 阻止事件冒泡
+
+
+
+
+
+
+
+
+
+
+  ## 对象中的方法
+  `Object.defineProperty()`
+    此方法可以在一个对象上直接定义一个新的属性，或者修改已经存在的属性，最后这个对象。通过配置属性描述符，可以精准的控制属性的行为。
+    Object.defineProperty(obj,pre,desc)接受三个参数
+      obj:要在其上定义属性的对象
+      prop:要定义或修改的属性
+      desc:将被定义或者修改的属性描述符
+
+    属性描述符：属性描述符可分为数据描述符和访问器描述符，在属性描述符中，无论时数据描述符还是访问描述符须包含configurable和enumerable键值
+      configurable： 表示对象的属性是否可以删除，以及除writable和value之外的特性是否可以进行修改
+      enumerable： 定义对象的属性是否可以在for..in 循环中和Object.keys()被枚举
+      数据描述符：
+        value: 该属性对应的值，可以是所有Javascript的值
+        writable：当writable属性为true时，value才能进行赋值运算
+      访问器描述符：  
+          get: 给属性提供getter的方法，如果没有getter则是undefined
+          set: 给属性提供setter方法，如果没有setter时为undefined。当属性值修改时触发此方法
